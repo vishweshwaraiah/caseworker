@@ -1,0 +1,17 @@
+.svg-holder {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+
+    &.hover-inverse {
+        &:hover svg {
+            fill: var(--master-body-bg);
+        }
+    }
+
+    .label-before,
+    .label-after {
+        margin: auto;
+    }
+}

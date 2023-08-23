@@ -1,0 +1,17 @@
+@import "assets/styles/_mixins.scss";
+
+.to_top {
+    display: block;
+    position: fixed;
+    width: px2rem(60);
+    height: px2rem(60);
+    bottom: px2rem(40);
+    right: px2rem(40);
+    background-color: var(--master-body-bg);
+    border: px2rem(3) solid var(--master-body-color);
+    border-radius: px2rem(50);
+    text-align: center;
+    box-shadow: boxShadow();
+    z-index: 100;
+    padding: 0;
+}

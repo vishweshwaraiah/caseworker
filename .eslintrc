@@ -1,0 +1,26 @@
+{
+    "extends": [
+        "eslint:recommended",
+        "react-app"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 2020
+    },
+    "plugins": [
+        "prettier"
+    ],
+    "rules": {
+        "prettier/prettier": [
+            "error",
+            {
+                "printWidth": 80,
+                "htmlWhitespaceSensitivity": "ignore",
+                "bracketSameLine": false,
+                "arrowParens": "always",
+                "proseWrap": "always",
+                "endOfLine": "auto"
+            }
+        ],
+        "no-debugger": "off"
+    }
+}
