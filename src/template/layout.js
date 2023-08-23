@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom'
 import NavBar from 'template/navbar'
 import MasterSwitch from 'components/MasterSwitch'
-import Login from 'pages/Login'
+import Signin from 'pages/Signin'
 import Signup from 'pages/Signup'
 import { useState } from 'react'
 
@@ -27,7 +27,9 @@ const Layout = () => {
   }
 
   const loginUser = (e, data) => {
-    if (data?.username && data?.password) {
+    const validUser = data?.username === 'Vishu'
+    const validPassword = data?.password === '12345678'
+    if (validUser && validPassword) {
       setCurrentUser((prevState) => {
         return {
           ...currentUser,
@@ -67,7 +69,7 @@ const Layout = () => {
           {signup ? (
             <Signup triggerSignin={clickSignin} />
           ) : (
-            <Login triggerSignup={clickSignup} clickToLogin={loginUser} />
+            <Signin triggerSignup={clickSignup} clickToLogin={loginUser} />
           )}
         </section>
       )}

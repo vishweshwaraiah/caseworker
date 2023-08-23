@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Icon from 'components/MasterIcon'
 import MasterValidate from 'components/MasterValidate'
 
-const Login = (props) => {
+const Signin = (props) => {
   const { clickToLogin, triggerSignup } = props
 
   const [openForm, setOpenForm] = useState(false)
@@ -70,7 +70,7 @@ const Login = (props) => {
           <div className="box-login-tab"></div>
           <div className="box-login-title">
             <Icon svgName="login-solid" size="medium" />
-            <span className="login-txt">LOGIN</span>
+            <span className="login-txt">SIGN IN</span>
           </div>
           <div className="box-login">
             <div className="fieldset-body" id="login_form">
@@ -177,14 +177,14 @@ const Login = (props) => {
   )
 }
 
-Login.propTypes = {
+Signin.propTypes = {
   clickToLogin: PropTypes.func,
   triggerSignup: PropTypes.func,
 }
 
-Login.defaultProps = {
+Signin.defaultProps = {
   clickToLogin: () => {},
   triggerSignup: () => {},
 }
 
-export default Login
+export default Signin

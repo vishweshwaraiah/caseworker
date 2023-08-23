@@ -14,6 +14,9 @@ const MasterCopy = (props) => {
     setTimeout(() => {
       setIsVisible(false)
     }, 2000)
+    setTimeout(() => {
+      setCopyIcon('copy')
+    }, 3000)
   }
 
   return (
