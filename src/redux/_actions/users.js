@@ -1,8 +1,8 @@
-import * as type from '../_types'
+import { GET_USERS_REQUEST } from 'redux/_types'
 
 export function getUsers(users) {
   return {
-    type: type.GET_USERS_REQUESTED,
+    type: GET_USERS_REQUEST,
     payload: users,
   }
 }

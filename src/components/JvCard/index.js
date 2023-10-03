@@ -1,6 +1,6 @@
 import React from 'react'
 
-const MasterCard = (props) => {
+const JvCard = (props) => {
   return (
     <div className="card">
       <div className="card-body">
@@ -14,4 +14,4 @@ const MasterCard = (props) => {
   )
 }
 
-export default MasterCard
+export default JvCard

@@ -1,20 +1,24 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import reportWebVitals from './reportWebVitals'
+import reportWebVitals from 'reportWebVitals'
 
 import { Provider } from 'react-redux'
-import store from './redux/_store'
+import store from 'redux/_store'
 
-import './assets/styles/index.scss'
+import { AuthProvider } from 'context/AuthProvider'
 
-import MainApp from './template'
+import 'assets/styles/index.scss'
+
+import MainApp from 'template'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <MainApp />
-    </Provider>
+    <AuthProvider>
+      <Provider store={store}>
+        <MainApp />
+      </Provider>
+    </AuthProvider>
   </React.StrictMode>
 )
 

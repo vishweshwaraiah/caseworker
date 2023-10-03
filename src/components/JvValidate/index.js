@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import MasterIcon from 'components/MasterIcon'
+import JvIcon from 'components/JvIcon'
 
-const MasterValidate = (props) => {
+const JvValidate = (props) => {
   const { inline, icononly, svgName, className } = props
 
   const wrapperStyle = () => {
@@ -11,28 +11,24 @@ const MasterValidate = (props) => {
   }
   return (
     <div className={wrapperStyle()}>
-      <MasterIcon
-        svgName={svgName}
-        size="small"
-        fillColor="var(--master-red)"
-      />
+      <JvIcon svgName={svgName} size="small" fillColor="var(--jv-red)" />
       {!icononly && <span>Error message!</span>}
     </div>
   )
 }
 
-MasterValidate.propTypes = {
+JvValidate.propTypes = {
   inline: PropTypes.bool,
   icononly: PropTypes.bool,
   svgName: PropTypes.string,
   className: PropTypes.string,
 }
 
-MasterValidate.defaultProps = {
+JvValidate.defaultProps = {
   inline: true,
   icononly: false,
   svgName: 'checked-round',
   className: '',
 }
 
-export default MasterValidate
+export default JvValidate

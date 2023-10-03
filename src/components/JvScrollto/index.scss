@@ -7,11 +7,18 @@
     height: px2rem(60);
     bottom: px2rem(40);
     right: px2rem(40);
-    background-color: var(--master-body-bg);
-    border: px2rem(3) solid var(--master-body-color);
+    background-color: var(--jv-body-bg);
+    border: px2rem(3) solid var(--jv-body-color);
     border-radius: px2rem(50);
     text-align: center;
     box-shadow: boxShadow();
     z-index: 100;
     padding: 0;
+
+    svg {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 }

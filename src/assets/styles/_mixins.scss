@@ -46,13 +46,13 @@
 
 @function boxShadow($type: default, $variant: dark) {
     // colors goes here
-    $default-color: var(--master-dark);
-    $success-color: var(--master-success);
-    $info-color: var(--master-info);
-    $warning-color: var(--master-warning);
-    $danger-color: var(--master-danger);
-    $primary-color: var(--master-primary);
-    $secondary-color: var(--master-secondary);
+    $default-color: var(--jv-dark);
+    $success-color: var(--jv-success);
+    $info-color: var(--jv-info);
+    $warning-color: var(--jv-warning);
+    $danger-color: var(--jv-danger);
+    $primary-color: var(--jv-primary);
+    $secondary-color: var(--jv-secondary);
 
     // shadow values goes here
     $linear-shadow: var(--linear-shadow);

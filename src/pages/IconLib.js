@@ -1,7 +1,7 @@
 import React from 'react'
-import Icon from 'components/MasterIcon'
-import Copy from 'components/MasterCopy'
-import ScrollTo from 'components/MasterScrollto'
+import Icon from 'components/JvIcon'
+import Copy from 'components/JvCopy'
+import ScrollTo from 'components/JvScrollto'
 
 const IconLib = () => {
   const reqSvgs = require.context('assets/icons', true, /\.svg$/)

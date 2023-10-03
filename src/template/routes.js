@@ -37,4 +37,13 @@ const routes = [
   },
 ]
 
+export const getRoutes = routes.map((route) => {
+  return route._path
+})
+
+export const validRoute = (route) => {
+  const getIndex = getRoutes.findIndex((i) => i === route)
+  return getIndex !== -1
+}
+
 export default routes

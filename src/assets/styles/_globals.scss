@@ -23,15 +23,13 @@ html {
 
 body {
   margin: 0;
-  font-family: var(--master-body-font-family);
-  font-size: var(--master-body-font-size);
-  font-weight: var(--master-body-font-weight);
-  line-height: var(--master-body-line-height);
-  color: var(--master-body-color);
-  text-align: var(--master-body-text-align);
-  background-color: var(--master-body-bg);
-  -webkit-text-size-adjust: 100%;
-  -webkit-tap-highlight-color: transparent;
+  font-family: var(--jv-body-font-family);
+  font-size: var(--jv-body-font-size);
+  font-weight: var(--jv-body-font-weight);
+  line-height: var(--jv-body-line-height);
+  color: var(--jv-body-color);
+  text-align: var(--jv-body-text-align);
+  background-color: var(--jv-body-bg);
 
   @include hideScroll();
 }
@@ -40,7 +38,7 @@ hr {
   margin: 1rem 0;
   color: inherit;
   border: 0;
-  border-top: var(--master-border-width) solid;
+  border-top: var(--jv-border-width) solid;
   opacity: 0.25;
 }
 
@@ -60,7 +58,7 @@ h6 {
   margin-bottom: 0.5rem;
   font-weight: 500;
   line-height: 1.2;
-  color: var(--master-heading-color);
+  color: var(--jv-heading-color);
 }
 
 .h1,
@@ -156,7 +154,7 @@ small {
 .mark,
 mark {
   padding: 0.1875em;
-  background-color: var(--master-highlight-bg);
+  background-color: var(--jv-highlight-bg);
 }
 
 sub,
@@ -176,12 +174,12 @@ sup {
 }
 
 a {
-  color: rgba(var(--master-link-color-rgb), var(--master-link-opacity, 1));
+  color: rgba(var(--jv-link-color-rgb), var(--jv-link-opacity, 1));
   text-decoration: underline;
 }
 
 a:hover {
-  --master-link-color-rgb: var(--master-link-hover-color-rgb);
+  --jv-link-color-rgb: var(--jv-link-hover-color-rgb);
 }
 
 a:not([href]):not([class]),
@@ -194,7 +192,7 @@ code,
 kbd,
 pre,
 samp {
-  font-family: var(--master-font-monospace);
+  font-family: var(--jv-font-monospace);
   font-size: 1em;
 }
 
@@ -214,7 +212,7 @@ pre code {
 
 code {
   font-size: 0.875em;
-  color: var(--master-code-color);
+  color: var(--jv-code-color);
   word-wrap: break-word;
 }
 
@@ -225,8 +223,8 @@ a>code {
 kbd {
   padding: 0.1875rem 0.375rem;
   font-size: 0.875em;
-  color: var(--master-body-bg);
-  background-color: var(--master-body-color);
+  color: var(--jv-body-bg);
+  background-color: var(--jv-body-color);
   border-radius: 0.25rem;
 }
 
@@ -252,13 +250,13 @@ table {
 caption {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  color: var(--master-secondary-color);
+  color: var(--jv-secondary-color);
   text-align: left;
 }
 
 th {
   text-align: inherit;
-  text-align: -webkit-match-parent;
+  text-align: match-parent;
 }
 
 tbody,
@@ -502,5 +500,83 @@ progress {
 @include mediaQuery(mobile) {
   .grid-container {
     grid-template-columns: repeat(auto-fit, minmax(49.50%, 2fr));
+  }
+}
+
+/*-------------------
+Button related styles
+-------------------*/
+
+.btn {
+  display: inline-block;
+  letter-spacing: 0.0635rem;
+  outline: none;
+  position: relative;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+  width: auto;
+  padding: 0 1.25rem;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  border: none;
+  opacity: 1;
+  box-shadow: 0.25rem 0.5rem 1rem 0 rgba(0, 0, 0, .3);
+
+  &.small {
+    height: 2rem;
+    font-size: 1rem;
+    line-height: 2rem;
+  }
+
+  &.medium {
+    height: 3rem;
+    font-size: 1.25rem;
+    line-height: 2.5rem;
+  }
+
+  &.large {
+    height: 4rem;
+    font-size: 1.5rem;
+    line-height: 3rem;
+  }
+
+  &.full {
+    width: 100%;
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  &:active {
+    opacity: 0.9;
+    top: 0.0625rem;
+  }
+
+  &.btn-primary {
+    background: var(--jv-primary);
+  }
+
+  &.btn-success {
+    background: var(--jv-success);
+  }
+
+  &.btn-secondary {
+    background: var(--jv-secondary);
+  }
+
+  &.btn-info {
+    background: var(--jv-info);
+  }
+
+  &.btn-warning {
+    background: var(--jv-warning);
+  }
+
+  &.btn-danger {
+    background: var(--jv-danger);
   }
 }

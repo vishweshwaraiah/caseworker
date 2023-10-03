@@ -1,0 +1,46 @@
+.jv_checkbox {
+    display: flex;
+    align-items: center;
+
+    input[type="checkbox"] {
+        margin-right: 0.625rem;
+        position: relative;
+        width: 1.5em;
+        height: 1.5em;
+        color: var(--jv-dark);
+        border: 1px solid var(--jv-gray);
+        border-radius: 4px;
+        appearance: none;
+        outline: 0;
+        cursor: pointer;
+        transition: background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
+
+        &::before {
+            position: absolute;
+            content: "";
+            top: 25%;
+            left: 45%;
+            width: 30%;
+            height: 60%;
+            border-style: solid;
+            border-color: var(--jv-light);
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg) translate(-50%);
+            opacity: 0;
+        }
+
+        &:checked {
+            color: var(--jv-light);
+            border-color: var(--jv-dark);
+            background: var(--jv-dark);
+
+            &::before {
+                opacity: 1;
+            }
+
+            ~label::before {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            }
+        }
+    }
+}

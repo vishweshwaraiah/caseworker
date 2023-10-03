@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import './index.scss'
 
-const MasterSwitch = (props) => {
+const JvSwitch = (props) => {
   const { value, round, changeStatus } = props
 
   const [checked, setChecked] = useState(false)
@@ -36,16 +36,16 @@ const MasterSwitch = (props) => {
   )
 }
 
-MasterSwitch.propTypes = {
+JvSwitch.propTypes = {
   value: PropTypes.string,
   round: PropTypes.bool,
   changeStatus: PropTypes.func,
 }
 
-MasterSwitch.defaultProps = {
+JvSwitch.defaultProps = {
   value: '',
   round: false,
   changeStatus: PropTypes.func,
 }
 
-export default MasterSwitch
+export default JvSwitch

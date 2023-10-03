@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import './index.scss'
 
-const MasterIcon = (props) => {
+const JvIcon = (props) => {
   const {
     labelBefore,
     labelAfter,
@@ -41,7 +41,7 @@ const MasterIcon = (props) => {
   }, [svgName])
 
   const getStyles = () => {
-    return 'svg-holder' + className
+    return `svg-holder ${className}`.trim()
   }
 
   return (
@@ -60,7 +60,7 @@ const MasterIcon = (props) => {
   )
 }
 
-MasterIcon.propTypes = {
+JvIcon.propTypes = {
   labelBefore: PropTypes.string,
   labelAfter: PropTypes.string,
   size: PropTypes.string,
@@ -71,15 +71,15 @@ MasterIcon.propTypes = {
   title: PropTypes.string,
 }
 
-MasterIcon.defaultProps = {
+JvIcon.defaultProps = {
   labelBefore: '',
   labelAfter: '',
   size: 'medium',
   svgName: 'placeholder',
-  fillColor: 'var(--master-body-color)',
+  fillColor: 'var(--jv-body-color)',
   onClick: () => {},
   className: '',
   title: '',
 }
 
-export default MasterIcon
+export default JvIcon

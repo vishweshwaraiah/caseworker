@@ -1,19 +1,73 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import Icon from 'components/MasterIcon'
-import MasterValidate from 'components/MasterValidate'
+import AuthContext from 'context/AuthProvider'
+import JvIcon from 'components/JvIcon'
+import JvInput from 'components/JvInput'
+import JvCheckbox from 'components/JvCheckbox'
+import JvButton from 'components/JvButton'
+import { USER_EMAIL, USER_PWD } from 'constants/Validation'
+import JvModal from 'components/JvModal'
+import { validRoute } from 'template/routes'
 
 const Signin = (props) => {
-  const { clickToLogin, triggerSignup } = props
+  const { toggleScreen } = props
+
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
+
+  const { setAuth } = useContext(AuthContext)
 
   const [openForm, setOpenForm] = useState(false)
-  const [loginCreds, setLoginCreds] = useState({})
-  const [usernameError, setUsernameError] = useState(false)
+  const [signinCreds, setSigninCreds] = useState({
+    remember: true,
+  })
+  const [emailid, setEmailid] = useState('')
+  const [password, setPassword] = useState('')
+  const [emailidError, setEmailidError] = useState(false)
   const [passwordError, setPasswordError] = useState(false)
+  const [supportModal, setSupportModal] = useState(false)
 
-  const submitLogin = (e) => {
-    closeLoginInfo()
-    clickToLogin(e, loginCreds)
+  const signinUser = (e, data) => {
+    const validUser = data?.emailid === 'k.vishu@outlook.com'
+    const validPassword = data?.password === 'Kalyan@14158'
+    if (validUser && validPassword) {
+      setAuth(data)
+      if (!validRoute(pathname)) {
+        navigate('/')
+      }
+    }
+  }
+
+  const submitSignin = (e) => {
+    closeSigninInfo()
+    if (!emailid) {
+      setEmailidError(true)
+    }
+    if (!password) {
+      setPasswordError(true)
+    }
+
+    const v1 = USER_EMAIL.test(emailid)
+    const v2 = USER_PWD.test(password)
+
+    if (!v1) {
+      setEmailidError(true)
+      return
+    }
+
+    if (!v2) {
+      setPasswordError(true)
+      return
+    }
+
+    if (emailid && password) {
+      setEmailidError(false)
+      setPasswordError(false)
+      signinUser(e, signinCreds)
+    }
+
+    closeSigninInfo()
   }
 
   const handleChange = (e) => {
@@ -21,35 +75,43 @@ const Signin = (props) => {
     const valueObj = {
       [name]: type === 'checkbox' ? checked : value,
     }
-    setLoginCreds((pre) => ({ ...pre, ...valueObj }))
+    if (name === 'emailid') {
+      setEmailid(value)
+    }
+    if (name === 'password') {
+      setPassword(value)
+    }
+    setSigninCreds((pre) => ({ ...pre, ...valueObj }))
   }
 
   useEffect(() => {
-    if (loginCreds.username) {
-      setUsernameError(false)
+    if (emailid) {
+      setEmailidError(false)
     } else {
-      setUsernameError(true)
+      setEmailidError(true)
     }
-  }, [loginCreds.username])
+  }, [emailid])
 
   useEffect(() => {
-    if (loginCreds.password) {
+    if (password) {
       setPasswordError(false)
     } else {
       setPasswordError(true)
     }
-  }, [loginCreds.password])
+  }, [password])
 
   useEffect(() => {
-    setUsernameError(false)
+    setEmailidError(false)
     setPasswordError(false)
   }, [])
 
-  const openLoginInfo = () => {
+  const openSigninInfo = () => {
+    setEmailidError(false)
+    setPasswordError(false)
     setOpenForm(true)
   }
 
-  const closeLoginInfo = () => {
+  const closeSigninInfo = () => {
     setOpenForm(false)
   }
 
@@ -59,132 +121,121 @@ const Signin = (props) => {
     return `${defCls} ${formType}`
   }
 
-  const contactSupport = () => true
-
-  const forgotPassword = () => true
+  const contactSupport = (status) => {
+    setSupportModal(status)
+  }
 
   return (
-    <div className="login-container">
+    <div className="signin-container">
       <div className={boxStyles()}>
         <div className="box-form">
-          <div className="box-login-tab"></div>
-          <div className="box-login-title">
-            <Icon svgName="login-solid" size="medium" />
-            <span className="login-txt">SIGN IN</span>
+          <div className="box-signin-tab"></div>
+          <div className="box-signin-title">
+            <JvIcon svgName="signin-solid" size="medium" />
+            <span className="signin-txt">SIGN IN</span>
           </div>
-          <div className="box-login">
-            <div className="fieldset-body" id="login_form">
-              <Icon
+          <div className="box-signin">
+            <div className="fieldset-body" id="signin_form">
+              <JvIcon
                 className="b b-form"
                 svgName="more-horizontal"
                 size="medium"
                 title="More information"
-                onClick={openLoginInfo}
+                onClick={openSigninInfo}
               />
               <div className="field">
-                <label htmlFor="username">USERNAME</label>
-                <input
-                  type="text"
-                  id="username"
-                  name="username"
-                  title="Username"
+                <JvInput
+                  label="EMAIL ID"
+                  name="emailid"
+                  title="Email ID"
                   onChange={(e) => handleChange(e)}
-                  className={usernameError ? 'error' : undefined}
+                  className={emailidError ? 'error' : undefined}
+                  inputError={emailidError}
+                  autoFocus={true}
                 />
-                {usernameError && (
-                  <MasterValidate
-                    className="input-icon"
-                    icononly
-                    svgName="close-border"
-                  />
-                )}
               </div>
               <div className="field">
-                <label htmlFor="password">PASSWORD</label>
-                <input
-                  type="password"
-                  id="password"
+                <JvInput
+                  label="PASSWORD"
                   name="password"
+                  type="password"
                   title="Password"
                   onChange={(e) => handleChange(e)}
                   className={passwordError ? 'error' : undefined}
+                  inputError={passwordError}
                 />
-                {passwordError && (
-                  <MasterValidate
-                    className="input-icon"
-                    icononly
-                    svgName="close-border"
-                  />
-                )}
               </div>
-
-              <label className="checkbox">
-                <input
-                  type="checkbox"
+              <div className="field">
+                <JvCheckbox
+                  label="Keep me signed in"
                   name="remember"
                   title="Keep me signed in"
                   onChange={(e) => handleChange(e)}
+                  className="remember_me"
+                  defaultChecked={signinCreds.remember}
                 />
-                <span>Keep me signed in</span>
-              </label>
-
-              <input
+              </div>
+              <JvButton
+                className="btn-success"
+                width="full"
                 type="submit"
-                id="do_login"
-                value="GET STARTED"
                 title="Get Started"
-                onClick={submitLogin}
+                content="GET STARTED"
+                onClick={submitSignin}
               />
             </div>
           </div>
         </div>
         <div className="box-info">
           <div className="need-help">
-            <Icon
+            <JvIcon
               svgName="close-border"
               size="medium"
               title="Back to sign In"
-              onClick={closeLoginInfo}
+              onClick={closeSigninInfo}
             />
             <span className="help-txt">Need Help?</span>
           </div>
           <div className="line-wh"></div>
-          <button
-            onClick={forgotPassword}
+          <JvButton
+            onClick={() => contactSupport(true)}
             className="b-support"
             title="Forgot Password?"
-          >
-            Forgot Password?
-          </button>
-          <button
-            onClick={contactSupport}
+            content="Forgot Password?"
+            size="small"
+          />
+          <JvButton
+            onClick={() => contactSupport(true)}
             className="b-support"
             title="Contact Support"
-          >
-            Contact Support
-          </button>
+            content="Contact Support"
+            size="small"
+          />
           <div className="line-wh"></div>
-          <button
-            onClick={triggerSignup}
+          <JvButton
             className="b-cta"
             title="Sign up now!"
-          >
-            CREATE ACCOUNT
-          </button>
+            content="CREATE ACCOUNT"
+            size="small"
+            onClick={() => toggleScreen('signup')}
+          />
         </div>
       </div>
+      <JvModal size="small" isOpen={supportModal} onClose={contactSupport}>
+        <header>Contact Support</header>
+        <section>Contact us on +91-7353333573</section>
+        <footer>* try again if not answered!</footer>
+      </JvModal>
     </div>
   )
 }
 
 Signin.propTypes = {
-  clickToLogin: PropTypes.func,
-  triggerSignup: PropTypes.func,
+  toggleScreen: PropTypes.func,
 }
 
 Signin.defaultProps = {
-  clickToLogin: () => {},
-  triggerSignup: () => {},
+  toggleScreen: () => {},
 }
 
 export default Signin

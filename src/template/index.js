@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Layout from 'template/layout'
 import routes from 'template/routes'
+import NoPage from 'pages/NoPage'
 import 'template/index.scss'
 
 const App = () => {
@@ -13,6 +14,7 @@ const App = () => {
               {item._name}
             </Route>
           ))}
+          <Route path="*" element={<NoPage />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getUsers } from 'redux/_actions/users'
-import Card from 'components/MasterCard'
+import Card from 'components/JvCard'
 
 const Users = () => {
   const dispatch = useDispatch()

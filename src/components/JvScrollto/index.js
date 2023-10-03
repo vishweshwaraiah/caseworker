@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import Icon from 'components/MasterIcon'
+import JvIcon from 'components/JvIcon'
 import './index.scss'
 
-const MasterScrollto = (props) => {
+const JvScrollto = (props) => {
   const { scrollTo, svgName } = props
   const vHeight = window.innerHeight
   const [display, setDisplay] = useState()
@@ -24,28 +24,28 @@ const MasterScrollto = (props) => {
   })
 
   return (
-    <div className="master-scroller">
+    <div className="jv-scroller">
       {display && (
-        <button className="to_top btn" onClick={goTo}>
-          <Icon
-            svgName={svgName}
-            size="medium"
-            fillColor="var(--master-body-color)"
-          />
-        </button>
+        <JvIcon
+          className="to_top btn"
+          onClick={goTo}
+          svgName={svgName}
+          size="medium"
+          fillColor="var(--jv-body-color)"
+        />
       )}
     </div>
   )
 }
 
-MasterScrollto.propTypes = {
+JvScrollto.propTypes = {
   scrollTo: PropTypes.string,
   svgName: PropTypes.string,
 }
 
-MasterScrollto.defaultProps = {
+JvScrollto.defaultProps = {
   scrollTo: '',
   svgName: 'arrow-up',
 }
 
-export default MasterScrollto
+export default JvScrollto

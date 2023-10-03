@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import routes from 'template/routes'
-import Icon from 'components/MasterIcon'
+import Icon from 'components/JvIcon'
 
 const NavBar = () => {
   const [openMenu, setOpenMenu] = useState(false)

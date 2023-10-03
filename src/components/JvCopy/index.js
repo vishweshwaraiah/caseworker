@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import Icon from 'components/MasterIcon'
+import Icon from 'components/JvIcon'
 import './index.scss'
 
-const MasterCopy = (props) => {
+const JvCopy = (props) => {
   const [copyIcon, setCopyIcon] = useState('copy')
   const [isVisible, setIsVisible] = useState(false)
 
@@ -32,4 +32,4 @@ const MasterCopy = (props) => {
   )
 }
 
-export default MasterCopy
+export default JvCopy

@@ -1,5 +1,5 @@
-import ErrorMessages from '@/constants/Errors'
-import { monthStrings } from '@/constants/DateTime'
+import EM from 'constants/Errors'
+import { monthStrings } from 'constants/DateTime'
 
 const TrimString = (s) => {
   let l = 0
@@ -113,6 +113,28 @@ const isValidData = (value) => {
   return status
 }
 
+export const IsValidObject = (dataObj) => {
+  let objCnt = 0
+  if (!dataObj || Array.isArray(dataObj)) {
+    objCnt = 0
+  } else {
+    const objKeys = Object.keys(dataObj)
+    const objValues = Object.values(dataObj)
+
+    if (typeof dataObj === 'object' && objKeys.length) {
+      objValues.forEach((elm) => {
+        if (isValidData(elm)) {
+          objCnt++
+        }
+      })
+    } else {
+      objCnt = 0
+    }
+  }
+
+  return Boolean(objCnt)
+}
+
 export const IsSimilarObject = (oldObject, newObject) => {
   const xObject = ParseObject(oldObject)
   const yObject = ParseObject(newObject)
@@ -140,14 +162,14 @@ export const PushUniqueObjects = (dataArray, newObj) => {
   if (newObj?.constructor.name !== 'Object') {
     return {
       type: 'error',
-      message: ErrorMessages.VALID_OBJECT,
+      message: EM.VALID_OBJECT,
     }
   }
 
   if (dataArray?.constructor.name !== 'Array') {
     return {
       type: 'error',
-      message: ErrorMessages.VALID_ARRAY,
+      message: EM.VALID_ARRAY,
     }
   }
 
@@ -156,7 +178,7 @@ export const PushUniqueObjects = (dataArray, newObj) => {
   })
   const checkIt = res.some((i) => i === true)
   if (dataArray.length && checkIt) {
-    alert(ErrorMessages.NO_DUPLICATES)
+    alert(EM.NO_DUPLICATES)
   } else {
     dataArray.push(newObj)
   }
@@ -169,28 +191,6 @@ export const ParseObject = (objectData) => {
 
 export const StringifyObject = (objectData) => {
   return JSON.stringify(objectData)
-}
-
-export const IsValidObject = (dataObj) => {
-  let objCnt = 0
-  if (!dataObj || Array.isArray(dataObj)) {
-    objCnt = 0
-  } else {
-    const objKeys = Object.keys(dataObj)
-    const objValues = Object.values(dataObj)
-
-    if (typeof dataObj === 'object' && objKeys.length) {
-      objValues.forEach((elm) => {
-        if (isValidData(elm)) {
-          objCnt++
-        }
-      })
-    } else {
-      objCnt = 0
-    }
-  }
-
-  return Boolean(objCnt)
 }
 
 export const CustomSort = (objectsArray, key, type) => {
