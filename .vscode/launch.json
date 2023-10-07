@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CwBackendApplication",
+            "request": "launch",
+            "mainClass": "com.master.cw_backend.CwBackendApplication",
+            "projectName": "cw_backend"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-CaseworkerApplication<cw_backend>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
