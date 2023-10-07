@@ -1,0 +1,111 @@
+POST http://127.0.0.1:3333/api/user HTTP/1.1
+content-type: application/json
+
+{
+    "userName": "Vishkj",
+    "fullName": "Vish K J",
+    "email": "k.vishu@outlook.com",
+    "mobile": "7353333573",
+    "sex": "male",
+    "age": 33,
+    "password": "KalyanMaster@14158"
+}
+
+###
+
+GET http://127.0.0.1:3333/api/users HTTP/1.1
+
+###
+
+GET http://127.0.0.1:3333/api/user/1 HTTP/1.1
+
+###
+
+PUT http://127.0.0.1:3333/api/user/4 HTTP/1.1
+content-type: application/json
+
+{
+    "userName": "VismayaVj",
+    "fullName": "Vismaya V J",
+    "email": "vj.vismaya@outlook.com",
+    "mobile": "7353773573",
+    "sex": "female",
+    "age": 0.5,
+    "password": "KalyanMaster@14158"
+}
+
+###
+
+DELETE http://127.0.0.1:3333/api/user/307
+
+###
+
+POST http://127.0.0.1:3333/api/category HTTP/1.1
+content-type: application/json
+
+{
+    "categoryTitle": "Hardware",
+    "categoryDescription": "Hardware technlogies are always in market!!"
+}
+
+###
+
+PUT http://127.0.0.1:3333/api/category/1 HTTP/1.1
+content-type: application/json
+
+{
+    "categoryTitle": "Software Development",
+    "categoryDescription": "Software technlogies are blooming now!!"
+}
+
+###
+
+GET http://127.0.0.1:3333/api/categories HTTP/1.1
+
+###
+
+GET http://127.0.0.1:3333/api/category/1 HTTP/1.1
+
+###
+
+POST http://127.0.0.1:3333/api/post?categoryId=2&userId=4 HTTP/1.1
+content-type: application/json
+
+{
+    "postTitle": "Software Engineer",
+    "postContent": "Software enginner is a term used to people who work on softwares !!"
+}
+
+###
+
+PUT http://127.0.0.1:3333/api/post/1 HTTP/1.1
+content-type: application/json
+
+{
+    "postTitle": "Software Developer",
+    "postContent": "Software developer is a term used to people who work on computer technologies!!",
+    "postImage": "newImage.jpeg",
+    "categoryId": 2,
+    "userId": 1
+}
+
+###
+
+GET http://127.0.0.1:3333/api/posts HTTP/1.1
+
+###
+
+GET http://127.0.0.1:3333/api/post?userId=3 HTTP/1.1
+
+###
+
+
+GET http://127.0.0.1:3333/api/post?categoryId=1 HTTP/1.1
+
+###
+
+GET http://127.0.0.1:3333/api/post/user/1 HTTP/1.1
+
+###
+
+GET http://127.0.0.1:3333/api/posts/searchBy/Software HTTP/1.1
