@@ -2,13 +2,12 @@ POST http://127.0.0.1:3333/api/user HTTP/1.1
 content-type: application/json
 
 {
-    "userName": "Vishkj",
-    "fullName": "Vish K J",
-    "email": "k.vishu@outlook.com",
-    "mobile": "7353333573",
-    "sex": "male",
-    "age": 33,
-    "password": "KalyanMaster@14158"
+    "userName": "Vismaya V J",
+    "userEmail": "v.vismaya@outlook.com",
+    "userMobile": "7353203573",
+    "userSex": "FEMALE",
+    "userAge": 1,
+    "userPassword": "KalyanMaster@14158"
 }
 
 ###
