@@ -43,8 +43,8 @@ POST http://127.0.0.1:3333/api/category HTTP/1.1
 content-type: application/json
 
 {
-    "categoryTitle": "Hardware",
-    "categoryDescription": "Hardware technlogies are always in market!!"
+    "categoryTitle": "Hardware Tech",
+    "categoryDescription": "Computer hardware technology is a hands-on field that involves the design, testing and installation of a variety of computer hardware components, including computer systems and chips, routers, printers and other related equipment.!"
 }
 
 ###

@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,18 +30,21 @@ public class UserController {
     @PostMapping("/user")
     public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) {
         UserDto createUser = this.userService.createUser(userDto);
+
         return new ResponseEntity<UserDto>(createUser, HttpStatus.CREATED);
     }
 
     @PutMapping("/user/{id}")
     public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto, @PathVariable("id") Long id) {
         UserDto updateUser = this.userService.updateUser(userDto, id);
+
         return ResponseEntity.ok(updateUser);
     }
 
     @DeleteMapping("/user/{id}")
     public ResponseEntity<ApiResponse> deleteUser(@PathVariable("id") Long id) {
         Boolean delete = this.userService.deleteUser(id);
+
         return new ResponseEntity<ApiResponse>(new ApiResponse("User deleted successfully!", delete), HttpStatus.OK);
     }
 
@@ -56,6 +58,7 @@ public class UserController {
     @GetMapping("/user/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long id) {
         UserDto userDto = this.userService.getUserById(id);
+
         return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
     }
 
