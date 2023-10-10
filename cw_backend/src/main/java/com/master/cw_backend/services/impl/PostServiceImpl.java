@@ -1,53 +1,201 @@
 package com.master.cw_backend.services.impl;
 
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 import com.master.cw_backend.dtos.PostDto;
+import com.master.cw_backend.entities.CategoryEntity;
 import com.master.cw_backend.entities.PostEntity;
+import com.master.cw_backend.entities.UserEntity;
+import com.master.cw_backend.exceptions.ResourceNotFoundException;
+import com.master.cw_backend.repositories.CategoryRepository;
+import com.master.cw_backend.repositories.PostRepository;
+import com.master.cw_backend.repositories.UserRepository;
 import com.master.cw_backend.services.PostService;
+import com.master.cw_backend.utils.PostRequest;
+import com.master.cw_backend.utils.PostResponse;
 
+@Service
 public class PostServiceImpl implements PostService {
 
+    @Autowired
+    ModelMapper modelMapper;
+
+    @Autowired
+    PostRepository postRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    CategoryRepository categoryRepository;
+
     @Override
-    public PostDto createPost(PostDto postDto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createPost'");
+    public PostDto createPost(PostDto postDto, Long userId, Long categoryId) {
+
+        UserEntity userEntity = this.userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+
+        CategoryEntity categoryEntity = this.categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId));
+
+        PostEntity postEntity = this.postDtoToEntity(postDto);
+        postEntity.setCategory(categoryEntity);
+        postEntity.setUser(userEntity);
+        postEntity.setPostCreatedOn(new Date());
+        postEntity.setPostUpdatedOn(new Date());
+        postEntity.setPostImage("default.png");
+
+        PostEntity savedPost = this.postRepository.save(postEntity);
+
+        return this.postEntityToDto(savedPost);
     }
 
     @Override
-    public PostDto updatePost(PostDto postDto, Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updatePost'");
+    public PostDto updatePost(PostRequest postRequest, Long id) {
+        PostEntity postEntity = this.postRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
+
+        postEntity.setPostTitle(postRequest.getPostTitle());
+        postEntity.setPostContent(postRequest.getPostContent());
+        if (postRequest.getPostImage() != null) {
+            postEntity.setPostImage(postRequest.getPostImage());
+        }
+        if (postRequest.getCategoryId() != null) {
+            Long categoryId = postRequest.getCategoryId();
+            CategoryEntity categoryEntity = this.categoryRepository.findById(categoryId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId));
+            postEntity.setCategory(categoryEntity);
+        }
+        if (postRequest.getUserId() != null) {
+            Long userId = postRequest.getUserId();
+            UserEntity userEntity = this.userRepository.findById(userId)
+                    .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+            postEntity.setUser(userEntity);
+        }
+        postEntity.setPostUpdatedOn(new Date());
+
+        PostEntity updatedPost = this.postRepository.save(postEntity);
+
+        return this.postEntityToDto(updatedPost);
     }
 
     @Override
     public PostDto getPostById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPostById'");
+        PostEntity postEntity = this.postRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
+
+        return this.postEntityToDto(postEntity);
     }
 
     @Override
-    public List<PostDto> getAllPosts() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllPosts'");
+    public PostResponse getAllPosts(Integer pageNumber, Integer pageSize, String sortBy, String sortDir) {
+
+        Sort sort = Sort.by(sortBy).ascending();
+
+        if (sortDir.equalsIgnoreCase("desc")) {
+            sort = Sort.by(sortBy).descending();
+        }
+
+        Pageable Pgb = PageRequest.of(pageNumber, pageSize, sort);
+
+        Page<PostEntity> pagePost = this.postRepository.findAll(Pgb);
+
+        List<PostEntity> postEntities = pagePost.getContent();
+
+        List<PostDto> postDtos = postEntities.stream().map(post -> this.postEntityToDto(post))
+                .collect(Collectors.toList());
+
+        PostResponse postResponse = new PostResponse();
+
+        postResponse.setPosts(postDtos);
+
+        postResponse.setPageNumber(pagePost.getNumber());
+
+        postResponse.setPazeSize(pagePost.getSize());
+
+        postResponse.setTotalElements(pagePost.getTotalElements());
+
+        postResponse.setTotalPages(pagePost.getTotalPages());
+
+        postResponse.setLastpage(pagePost.isLast());
+
+        return postResponse;
     }
 
     @Override
     public Boolean deletePost(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deletePost'");
+        PostEntity postEntity = this.postRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
+
+        this.postRepository.delete(postEntity);
+
+        return true;
+    }
+
+    @Override
+    public List<PostDto> getPostsByUserId(Long userId) {
+
+        UserEntity userEntity = this.userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+
+        List<PostEntity> postEntities = this.postRepository.findByUser(userEntity);
+
+        List<PostDto> postDtos = postEntities.stream().map(post -> this.postEntityToDto(post))
+                .collect(Collectors.toList());
+
+        return postDtos;
+    }
+
+    @Override
+    public List<PostDto> getPostsByCategoryId(Long categoryId) {
+        CategoryEntity categoryEntity = this.categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId));
+
+        List<PostEntity> postEntities = this.postRepository.findByCategory(categoryEntity);
+
+        List<PostDto> postDtos = postEntities.stream().map(post -> this.postEntityToDto(post))
+                .collect(Collectors.toList());
+
+        return postDtos;
+    }
+
+    @Override
+    public List<PostDto> findByCategoryAndUser(Long categoryId, Long userId) {
+
+        CategoryEntity categoryEntity = this.categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId));
+
+        UserEntity userEntity = this.userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+
+        List<PostEntity> postEntities = this.postRepository.findByCategoryAndUser(categoryEntity, userEntity);
+
+        List<PostDto> postDtos = postEntities.stream().map(post -> this.postEntityToDto(post))
+                .collect(Collectors.toList());
+
+        return postDtos;
     }
 
     @Override
     public PostDto postEntityToDto(PostEntity postEntity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'postEntityToDto'");
+        PostDto postDto = this.modelMapper.map(postEntity, PostDto.class);
+        return postDto;
     }
 
     @Override
     public PostEntity postDtoToEntity(PostDto postDto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'postDtoToEntity'");
+        PostEntity postEntity = this.modelMapper.map(postDto, PostEntity.class);
+        return postEntity;
     }
 
 }

@@ -1,9 +1,10 @@
-package com.master.cw_backend.dtos;
+package com.master.cw_backend.utils;
 
 import java.util.Date;
 
+import org.springframework.http.HttpStatusCode;
+
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,16 +12,15 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public class PostDto {
+public class PostRequest {
 
+    public static final HttpStatusCode OK = null;
     private Long id;
 
     @NotEmpty
-    @Size(min = 10, message = "Post title must be at least 10 chars long!")
     private String postTitle;
 
     @NotEmpty
-    @Size(min = 25, message = "Post content must be at least 25 chars long!")
     private String postContent;
 
     private String postImage;
@@ -29,7 +29,8 @@ public class PostDto {
 
     private Date postUpdatedOn;
 
-    private CategoryDto category;
+    private Long categoryId;
 
-    private UserDto user;
+    private Long userId;
+
 }

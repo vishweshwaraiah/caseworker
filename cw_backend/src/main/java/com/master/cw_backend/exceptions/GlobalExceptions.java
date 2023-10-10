@@ -1,6 +1,7 @@
 package com.master.cw_backend.exceptions;
 
 import java.util.HashMap;
+import java.util.IllegalFormatFlagsException;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -49,5 +50,12 @@ public class GlobalExceptions {
         });
 
         return new ResponseEntity<Map<String, String>>(errorResp, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(IllegalFormatFlagsException.class)
+    public ResponseEntity<ApiResponse> illegalFormatFlagsExceptionHandler(IllegalFormatFlagsException ex) {
+        String errorMessage = ex.getMessage();
+        ApiResponse apiResponse = new ApiResponse(errorMessage, false);
+        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.BAD_REQUEST);
     }
 }
