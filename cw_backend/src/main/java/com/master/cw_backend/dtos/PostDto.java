@@ -1,8 +1,12 @@
 package com.master.cw_backend.dtos;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,7 +33,13 @@ public class PostDto {
 
     private Date postUpdatedOn;
 
-    private CategoryDto category;
+    @NotNull(message = "Category id must not be null!")
+    @DecimalMin(message = "Category id must be valid!", value = "1")
+    private Long categoryId;
 
-    private UserDto user;
+    @NotNull(message = "User id must not be null!")
+    @DecimalMin(message = "User id must be valid!", value = "1")
+    private Long userId;
+
+    private Set<CommentDto> comments = new HashSet<>();
 }

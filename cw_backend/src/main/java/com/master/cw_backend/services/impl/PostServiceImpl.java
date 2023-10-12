@@ -21,7 +21,6 @@ import com.master.cw_backend.repositories.CategoryRepository;
 import com.master.cw_backend.repositories.PostRepository;
 import com.master.cw_backend.repositories.UserRepository;
 import com.master.cw_backend.services.PostService;
-import com.master.cw_backend.utils.PostRequest;
 import com.master.cw_backend.utils.PostResponse;
 
 @Service
@@ -40,7 +39,10 @@ public class PostServiceImpl implements PostService {
     CategoryRepository categoryRepository;
 
     @Override
-    public PostDto createPost(PostDto postDto, Long userId, Long categoryId) {
+    public PostDto createPost(PostDto postDto) {
+
+        Long userId = postDto.getUserId();
+        Long categoryId = postDto.getCategoryId();
 
         UserEntity userEntity = this.userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
@@ -61,27 +63,28 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDto updatePost(PostRequest postRequest, Long id) {
+    public PostDto updatePost(PostDto postDto, Long id) {
         PostEntity postEntity = this.postRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
 
-        postEntity.setPostTitle(postRequest.getPostTitle());
-        postEntity.setPostContent(postRequest.getPostContent());
-        if (postRequest.getPostImage() != null) {
-            postEntity.setPostImage(postRequest.getPostImage());
+        postEntity.setPostTitle(postDto.getPostTitle());
+        postEntity.setPostContent(postDto.getPostContent());
+        if (postDto.getPostImage() != null) {
+            postEntity.setPostImage(postDto.getPostImage());
         }
-        if (postRequest.getCategoryId() != null) {
-            Long categoryId = postRequest.getCategoryId();
+        if (postDto.getCategoryId() != null) {
+            Long categoryId = postDto.getCategoryId();
             CategoryEntity categoryEntity = this.categoryRepository.findById(categoryId)
                     .orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId));
             postEntity.setCategory(categoryEntity);
         }
-        if (postRequest.getUserId() != null) {
-            Long userId = postRequest.getUserId();
+        if (postDto.getUserId() != null) {
+            Long userId = postDto.getUserId();
             UserEntity userEntity = this.userRepository.findById(userId)
                     .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
             postEntity.setUser(userEntity);
         }
+
         postEntity.setPostUpdatedOn(new Date());
 
         PostEntity updatedPost = this.postRepository.save(postEntity);
@@ -107,9 +110,7 @@ public class PostServiceImpl implements PostService {
         }
 
         Pageable Pgb = PageRequest.of(pageNumber, pageSize, sort);
-
         Page<PostEntity> pagePost = this.postRepository.findAll(Pgb);
-
         List<PostEntity> postEntities = pagePost.getContent();
 
         List<PostDto> postDtos = postEntities.stream().map(post -> this.postEntityToDto(post))
@@ -118,15 +119,10 @@ public class PostServiceImpl implements PostService {
         PostResponse postResponse = new PostResponse();
 
         postResponse.setPosts(postDtos);
-
         postResponse.setPageNumber(pagePost.getNumber());
-
-        postResponse.setPazeSize(pagePost.getSize());
-
+        postResponse.setPageSize(pagePost.getSize());
         postResponse.setTotalElements(pagePost.getTotalElements());
-
         postResponse.setTotalPages(pagePost.getTotalPages());
-
         postResponse.setLastpage(pagePost.isLast());
 
         return postResponse;
@@ -179,6 +175,16 @@ public class PostServiceImpl implements PostService {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
         List<PostEntity> postEntities = this.postRepository.findByCategoryAndUser(categoryEntity, userEntity);
+
+        List<PostDto> postDtos = postEntities.stream().map(post -> this.postEntityToDto(post))
+                .collect(Collectors.toList());
+
+        return postDtos;
+    }
+
+    @Override
+    public List<PostDto> findBySearchkey(String keyword) {
+        List<PostEntity> postEntities = this.postRepository.findBySearchkey("%" + keyword + "%");
 
         List<PostDto> postDtos = postEntities.stream().map(post -> this.postEntityToDto(post))
                 .collect(Collectors.toList());

@@ -1,11 +1,15 @@
 package com.master.cw_backend.controllers;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,13 +19,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.master.cw_backend.constants.AppConstants;
 import com.master.cw_backend.dtos.PostDto;
+import com.master.cw_backend.services.FileService;
 import com.master.cw_backend.services.PostService;
 import com.master.cw_backend.utils.ApiResponse;
-import com.master.cw_backend.utils.PostRequest;
 import com.master.cw_backend.utils.PostResponse;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @RestController
@@ -31,27 +38,28 @@ public class PostController {
     @Autowired
     PostService postService;
 
+    @Autowired
+    FileService fileService;
+
     @PostMapping("/post")
-    public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postDto,
-            @RequestParam(name = "userId", required = true) Long userId,
-            @RequestParam(name = "categoryId", required = true) Long categoryId) {
-        PostDto savedPost = this.postService.createPost(postDto, userId, categoryId);
+    public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postDto) {
+        PostDto savedPost = this.postService.createPost(postDto);
         return new ResponseEntity<PostDto>(savedPost, HttpStatus.CREATED);
     }
 
     @PutMapping("/post/{id}")
-    public ResponseEntity<PostDto> updatePostById(@Valid @RequestBody PostRequest postRequest,
+    public ResponseEntity<PostDto> updatePostById(@Valid @RequestBody PostDto postDto,
             @PathVariable("id") Long id) {
-        PostDto postDto = this.postService.updatePost(postRequest, id);
-        return new ResponseEntity<PostDto>(postDto, HttpStatus.OK);
+        PostDto updatedPost = this.postService.updatePost(postDto, id);
+        return new ResponseEntity<PostDto>(updatedPost, HttpStatus.OK);
     }
 
     @GetMapping("/posts")
     public ResponseEntity<PostResponse> getAllPosts(
-            @RequestParam(name = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
-            @RequestParam(name = "pageSize", defaultValue = "2", required = false) Integer pageSize,
-            @RequestParam(name = "sortBy", defaultValue = "id", required = false) String sortBy,
-            @RequestParam(name = "sortDir", defaultValue = "asc", required = false) String sortDir) {
+            @RequestParam(name = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
+            @RequestParam(name = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize,
+            @RequestParam(name = "sortBy", defaultValue = AppConstants.SORT_BY, required = false) String sortBy,
+            @RequestParam(name = "sortDir", defaultValue = AppConstants.SORT_DIR, required = false) String sortDir) {
         PostResponse postResponse = this.postService.getAllPosts(pageNumber, pageSize, sortBy, sortDir);
 
         return new ResponseEntity<PostResponse>(postResponse, HttpStatus.OK);
@@ -62,7 +70,10 @@ public class PostController {
         Boolean deleted = this.postService.deletePost(id);
 
         return new ResponseEntity<ApiResponse>(
-                new ApiResponse("Post with id " + id + " deleted successfully!!", deleted), HttpStatus.OK);
+                new ApiResponse("Post " + id + " deleted successfully!",
+                        AppConstants.POST_DELETE,
+                        deleted),
+                HttpStatus.OK);
     }
 
     @GetMapping("/post/{id}")
@@ -70,6 +81,13 @@ public class PostController {
         PostDto postDto = this.postService.getPostById(id);
 
         return new ResponseEntity<PostDto>(postDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/posts/search/{keyword}")
+    public ResponseEntity<List<PostDto>> getPostByKeyword(@PathVariable("keyword") String keyword) {
+        List<PostDto> postDtos = this.postService.findBySearchkey(keyword);
+
+        return new ResponseEntity<List<PostDto>>(postDtos, HttpStatus.OK);
     }
 
     @GetMapping("/post")
@@ -90,6 +108,28 @@ public class PostController {
         }
 
         return new ResponseEntity<List<PostDto>>(postsList, HttpStatus.OK);
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<PostDto> uploadImage(@RequestParam(name = "image", required = true) MultipartFile image,
+            @RequestParam(name = "postId", required = true) Long postId) throws IOException {
+        System.out.println(image.getOriginalFilename());
+        PostDto postDto = this.postService.getPostById(postId);
+
+        String fileName = this.fileService.uploadImage(AppConstants.IMAGE_PATH, image);
+
+        postDto.setPostImage(fileName);
+        PostDto updatedPost = this.postService.updatePost(postDto, postId);
+
+        return new ResponseEntity<PostDto>(updatedPost, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/serveimage", produces = MediaType.IMAGE_PNG_VALUE)
+    public void downloadImage(HttpServletResponse response,
+            @RequestParam(name = "fileName", required = true) String fileName) throws IOException {
+        InputStream resource = this.fileService.getResource(AppConstants.IMAGE_PATH, fileName);
+        response.setContentType(MediaType.IMAGE_PNG_VALUE);
+        StreamUtils.copy(resource, response.getOutputStream());
     }
 
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.master.cw_backend.constants.AppConstants;
 import com.master.cw_backend.dtos.CategoryDto;
 import com.master.cw_backend.services.CategoryService;
 import com.master.cw_backend.utils.ApiResponse;
@@ -46,7 +47,9 @@ public class CategoryController {
     public ResponseEntity<ApiResponse> deleteCategory(@PathVariable("id") Long id) {
         Boolean deleted = this.categoryService.deleteCategory(id);
 
-        return new ResponseEntity<ApiResponse>(new ApiResponse("User deleted successfully!", deleted), HttpStatus.OK);
+        return new ResponseEntity<ApiResponse>(
+                new ApiResponse("Category " + id + " deleted successfully!", AppConstants.CATEGORY_DELETE, deleted),
+                HttpStatus.OK);
     }
 
     @GetMapping("categories")

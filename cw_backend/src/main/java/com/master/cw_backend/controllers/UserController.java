@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.master.cw_backend.constants.AppConstants;
 import com.master.cw_backend.dtos.UserDto;
 import com.master.cw_backend.services.UserService;
 import com.master.cw_backend.utils.ApiResponse;
@@ -45,7 +46,9 @@ public class UserController {
     public ResponseEntity<ApiResponse> deleteUser(@PathVariable("id") Long id) {
         Boolean delete = this.userService.deleteUser(id);
 
-        return new ResponseEntity<ApiResponse>(new ApiResponse("User deleted successfully!", delete), HttpStatus.OK);
+        return new ResponseEntity<ApiResponse>(
+                new ApiResponse("User " + id + " deleted successfully!", AppConstants.USER_DELETE, delete),
+                HttpStatus.OK);
     }
 
     @GetMapping("/users")

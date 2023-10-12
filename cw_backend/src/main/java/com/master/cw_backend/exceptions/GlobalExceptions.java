@@ -11,7 +11,9 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MultipartException;
 
+import com.master.cw_backend.constants.AppConstants;
 import com.master.cw_backend.utils.ApiResponse;
 
 import jakarta.validation.UnexpectedTypeException;
@@ -21,21 +23,21 @@ public class GlobalExceptions {
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ApiResponse> resourceNotFoundExceptionHandler(ResourceNotFoundException ex) {
         String errorMessage = ex.getMessage();
-        ApiResponse apiResponse = new ApiResponse(errorMessage, false);
+        ApiResponse apiResponse = new ApiResponse(errorMessage, AppConstants.RESOURCE_NOT_FOUND, false);
         return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(UnexpectedTypeException.class)
     public ResponseEntity<ApiResponse> unexpectedTypeExceptionHandler(UnexpectedTypeException ex) {
         String errorMessage = ex.getMessage();
-        ApiResponse apiResponse = new ApiResponse(errorMessage, false);
+        ApiResponse apiResponse = new ApiResponse(errorMessage, AppConstants.UNEXPECTED_TYPE, false);
         return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ApiResponse> httpMessageNotReadableExceptionHandler(HttpMessageNotReadableException ex) {
         String errorMessage = ex.getMessage();
-        ApiResponse apiResponse = new ApiResponse(errorMessage, false);
+        ApiResponse apiResponse = new ApiResponse(errorMessage, AppConstants.NOT_READABLE, false);
         return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.NOT_FOUND);
     }
 
@@ -55,7 +57,14 @@ public class GlobalExceptions {
     @ExceptionHandler(IllegalFormatFlagsException.class)
     public ResponseEntity<ApiResponse> illegalFormatFlagsExceptionHandler(IllegalFormatFlagsException ex) {
         String errorMessage = ex.getMessage();
-        ApiResponse apiResponse = new ApiResponse(errorMessage, false);
+        ApiResponse apiResponse = new ApiResponse(errorMessage, AppConstants.ILLEGAL_FORMAT, false);
+        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MultipartException.class)
+    public ResponseEntity<ApiResponse> multipartExceptionHandler(MultipartException ex) {
+        String errorMessage = ex.getMessage();
+        ApiResponse apiResponse = new ApiResponse(errorMessage, AppConstants.MULTIPART_UPLOAD, false);
         return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.BAD_REQUEST);
     }
 }

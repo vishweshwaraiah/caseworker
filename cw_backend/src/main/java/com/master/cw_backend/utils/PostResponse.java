@@ -15,7 +15,7 @@ public class PostResponse {
 
     private List<PostDto> posts;
     private Integer pageNumber;
-    private Integer pazeSize;
+    private Integer pageSize;
     private Long totalElements;
     private Integer totalPages;
     private Boolean lastpage;

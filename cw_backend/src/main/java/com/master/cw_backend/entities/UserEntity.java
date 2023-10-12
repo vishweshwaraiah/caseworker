@@ -1,7 +1,9 @@
 package com.master.cw_backend.entities;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.master.cw_backend.constants.AppConstants.Sex;
 
@@ -51,4 +53,7 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PostEntity> posts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<CommentEntity> comments = new HashSet<>();
 }
