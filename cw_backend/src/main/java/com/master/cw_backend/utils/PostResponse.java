@@ -4,13 +4,9 @@ import java.util.List;
 
 import com.master.cw_backend.dtos.PostDto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
-@Setter
-@Getter
-@NoArgsConstructor
+@Data
 public class PostResponse {
 
     private List<PostDto> posts;

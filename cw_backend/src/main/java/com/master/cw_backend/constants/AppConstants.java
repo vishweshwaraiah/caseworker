@@ -20,6 +20,7 @@ public class AppConstants {
     public static final String NOT_READABLE = "Wrong JSON, please verify!";
     public static final String ILLEGAL_FORMAT = "Illegal format in the data!";
     public static final String MULTIPART_UPLOAD = "Looks like something is wrong with upload file!";
+    public static final String BAD_CREDENTIALS = "Username or Password is Invalid!";
 
     // Image path
     public static final String IMAGE_PATH = "images/";

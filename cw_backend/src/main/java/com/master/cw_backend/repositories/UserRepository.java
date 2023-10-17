@@ -5,5 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.master.cw_backend.entities.UserEntity;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
+    UserEntity findByUserEmail(String userEmail);
 
+    UserEntity findByUserMobile(String userMobile);
 }

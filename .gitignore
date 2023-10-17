@@ -1,7 +1,4 @@
 .vscode
 *.http
-users.json
-categories.json
-posts.json
-comments.json
+json_files
 *.png

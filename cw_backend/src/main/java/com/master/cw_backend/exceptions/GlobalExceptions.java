@@ -3,10 +3,12 @@ package com.master.cw_backend.exceptions;
 import java.util.HashMap;
 import java.util.IllegalFormatFlagsException;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -65,6 +67,20 @@ public class GlobalExceptions {
     public ResponseEntity<ApiResponse> multipartExceptionHandler(MultipartException ex) {
         String errorMessage = ex.getMessage();
         ApiResponse apiResponse = new ApiResponse(errorMessage, AppConstants.MULTIPART_UPLOAD, false);
+        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<ApiResponse> noSuchElementExceptionHandler(NoSuchElementException ex) {
+        String errorMessage = ex.getMessage();
+        ApiResponse apiResponse = new ApiResponse(errorMessage, AppConstants.ILLEGAL_FORMAT, false);
+        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ApiResponse> badCredentialsExceptionHandler(BadCredentialsException ex) {
+        String errorMessage = ex.getMessage();
+        ApiResponse apiResponse = new ApiResponse(errorMessage, AppConstants.BAD_CREDENTIALS, false);
         return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.BAD_REQUEST);
     }
 }
