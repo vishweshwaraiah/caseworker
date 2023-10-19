@@ -5,7 +5,7 @@ import {
 } from 'redux/_types'
 
 const initialState = {
-  users: [],
+  userList: [],
   loading: false,
   error: null,
 }
@@ -21,7 +21,7 @@ function users(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        users: action.users,
+        userList: action.users,
       }
     case GET_USERS_FAILURE:
       return {

@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import AuthContext from 'context/AuthProvider'
+import { useSelector, useDispatch } from 'react-redux'
+import { signinRequest } from 'redux/_actions/auth'
 import JvIcon from 'components/JvIcon'
 import JvInput from 'components/JvInput'
 import JvCheckbox from 'components/JvCheckbox'
@@ -9,14 +10,16 @@ import JvButton from 'components/JvButton'
 import { USER_EMAIL, USER_PWD } from 'constants/Validation'
 import JvModal from 'components/JvModal'
 import { validRoute } from 'template/routes'
-
+import useAuth from 'helpers/useAuth'
 const Signin = (props) => {
   const { toggleScreen } = props
 
+  const dispatch = useDispatch()
   const navigate = useNavigate()
+
   const { pathname } = useLocation()
 
-  const { setAuth } = useContext(AuthContext)
+  const { setJwtToken } = useAuth()
 
   const [openForm, setOpenForm] = useState(false)
   const [signinCreds, setSigninCreds] = useState({
@@ -29,34 +32,53 @@ const Signin = (props) => {
   const [supportModal, setSupportModal] = useState(false)
 
   const signinUser = (e, data) => {
-    const validUser = data?.emailid === 'k.vishu@outlook.com'
-    const validPassword = data?.password === 'Kalyan@14158'
-    if (validUser && validPassword) {
-      setAuth(data)
+    dispatch(
+      signinRequest({
+        userEmail: data.emailid,
+        userPassword: data.password,
+      })
+    )
+    e.preventDefault()
+  }
+
+  const authDetails = useSelector((state) => state.auth)
+
+  useEffect(() => {
+    const setAuthDetails = (jwtToken) => {
+      setJwtToken(jwtToken)
       if (!validRoute(pathname)) {
         navigate('/')
       }
     }
-  }
+
+    const userEmail = authDetails?.email
+    const jwtToken = authDetails?.token
+
+    if (userEmail && jwtToken) {
+      setAuthDetails(jwtToken)
+    }
+  }, [authDetails])
 
   const submitSignin = (e) => {
     closeSigninInfo()
+
     if (!emailid) {
       setEmailidError(true)
     }
+
     if (!password) {
       setPasswordError(true)
     }
 
-    const v1 = USER_EMAIL.test(emailid)
-    const v2 = USER_PWD.test(password)
+    const validEmail = USER_EMAIL.test(emailid)
+    const validPassword = USER_PWD.test(password)
 
-    if (!v1) {
+    if (!validEmail) {
       setEmailidError(true)
       return
     }
 
-    if (!v2) {
+    if (!validPassword) {
       setPasswordError(true)
       return
     }

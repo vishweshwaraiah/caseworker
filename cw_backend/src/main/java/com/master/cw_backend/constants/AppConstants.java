@@ -21,6 +21,10 @@ public class AppConstants {
     public static final String ILLEGAL_FORMAT = "Illegal format in the data!";
     public static final String MULTIPART_UPLOAD = "Looks like something is wrong with upload file!";
     public static final String BAD_CREDENTIALS = "Username or Password is Invalid!";
+    public static final String MALFORMED_JWTTOKEN = "Jwt Token is changed, please try again!";
+    public static final String EXPIRED_JWTTOKEN = "Jwt Token is expired, please try again!";
+    public static final String ILLEGAL_JWTTOKEN = "This Jwt Token is illegal, please try again!";
+    public static final String GLOBAL_EXCEPTION = "Something went wrong, please try again!";
 
     // Image path
     public static final String IMAGE_PATH = "images/";

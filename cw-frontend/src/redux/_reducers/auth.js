@@ -9,8 +9,9 @@ import {
 
 const initialState = {
   token: '',
+  email: '',
   pending: false,
-  error: null,
+  error: '',
 }
 
 function auth(state = initialState, action) {
@@ -24,7 +25,8 @@ function auth(state = initialState, action) {
       return {
         ...state,
         pending: false,
-        token: action.token,
+        token: action.userDetails.jwtToken,
+        email: action.userDetails.userName,
       }
     case SIGNIN_USER_FAILURE:
       return {
@@ -41,7 +43,8 @@ function auth(state = initialState, action) {
       return {
         ...state,
         pending: false,
-        token: action.token,
+        token: action.userDetails.jwtToken,
+        email: action.userDetails.userName,
       }
     case SIGNUP_USER_FAILURE:
       return {

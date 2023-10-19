@@ -1,66 +1,76 @@
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
-import AuthContext from 'context/AuthProvider'
 import NavBar from 'template/navbar'
 import JvSwitch from 'components/JvSwitch'
 import Signin from 'pages/Signin'
 import Signup from 'pages/Signup'
-import { IsValidObject } from 'helpers/globals'
+import useAuth from 'helpers/useAuth'
+import JvSpinner from 'components/JvSpinner'
+import axios from 'helpers/axios'
 
 const Layout = () => {
-  const { auth } = useContext(AuthContext)
-
   const { pathname } = useLocation()
   const navigate = useNavigate()
 
-  const [theme, setTheme] = useState('Light')
+  const { jwtToken } = useAuth()
+
+  const [theme, setTheme] = useState('light')
   const [loggedin, setLoggedin] = useState(false)
   const rootElement = document.documentElement
-  const [signup, setSignup] = useState(false)
+  const [signType, setSignType] = useState('loading')
 
   useEffect(() => {
     if (pathname === '/signin') {
-      setSignup(false)
+      setSignType('signin')
     }
     if (pathname === '/signup') {
-      setSignup(true)
+      setSignType('signup')
     }
   }, [pathname])
 
   const toggleSignup = (value) => {
-    if (value === 'signin') {
-      setSignup(false)
-      navigate('/signin')
-    }
-
-    if (value === 'signup') {
-      setSignup(true)
-      navigate('/signup')
-    }
+    setSignType(value)
+    navigate('/' + value)
   }
 
   useEffect(() => {
-    if (IsValidObject(auth)) {
-      setLoggedin(true)
+    const checkValidity = async () => {
+      const URL = '/auth/user'
+      try {
+        const resp = await axios.get(URL)
+        if (resp.data) {
+          console.log(resp.data)
+          return true
+        }
+      } catch (error) {
+        return false
+      }
     }
-  }, [auth])
+
+    if (jwtToken && checkValidity()) {
+      setLoggedin(true)
+    } else {
+      setLoggedin(false)
+      setSignType('signin')
+    }
+  }, [])
 
   const changeTheme = (status) => {
     if (status) {
-      setTheme('Dark')
+      setTheme('dark')
       rootElement?.setAttribute('data-theme', 'dark')
     } else {
-      setTheme('Light')
+      setTheme('light')
       rootElement?.setAttribute('data-theme', 'light')
     }
   }
 
   return (
     <main>
-      {loggedin && auth ? (
+      {loggedin && jwtToken ? (
         <section>
           <div className="navbar">
-            <NavBar user={auth} />
+            <NavBar user={jwtToken} />
             <div className="theme-toggle">
               <span className="theme_name">{theme}</span>
               <JvSwitch round changeStatus={changeTheme} />
@@ -72,11 +82,9 @@ const Layout = () => {
         </section>
       ) : (
         <section className="authenticate">
-          {signup ? (
-            <Signup toggleScreen={toggleSignup} />
-          ) : (
-            <Signin toggleScreen={toggleSignup} />
-          )}
+          {signType === 'signup' && <Signup toggleScreen={toggleSignup} />}
+          {signType === 'signin' && <Signin toggleScreen={toggleSignup} />}
+          {signType === 'loading' && <JvSpinner isFixed />}
         </section>
       )}
     </main>

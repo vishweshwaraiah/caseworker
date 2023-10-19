@@ -5,13 +5,13 @@ import Card from 'components/JvCard'
 
 const Users = () => {
   const dispatch = useDispatch()
-  const users = useSelector((state) => state.users.users)
+  const users = useSelector((state) => state.users.userList)
   const loading = useSelector((state) => state.users.loading)
   const error = useSelector((state) => state.users.error)
 
   useEffect(() => {
     dispatch(getUsers())
-  }, [dispatch])
+  }, [])
 
   return (
     <Fragment>

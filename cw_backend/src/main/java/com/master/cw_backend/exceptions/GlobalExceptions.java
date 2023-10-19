@@ -18,6 +18,8 @@ import org.springframework.web.multipart.MultipartException;
 import com.master.cw_backend.constants.AppConstants;
 import com.master.cw_backend.utils.ApiResponse;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import jakarta.validation.UnexpectedTypeException;
 
 @RestControllerAdvice
@@ -81,6 +83,34 @@ public class GlobalExceptions {
     public ResponseEntity<ApiResponse> badCredentialsExceptionHandler(BadCredentialsException ex) {
         String errorMessage = ex.getMessage();
         ApiResponse apiResponse = new ApiResponse(errorMessage, AppConstants.BAD_CREDENTIALS, false);
+        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MalformedJwtException.class)
+    public ResponseEntity<ApiResponse> malformedJwtExceptionHandler(MalformedJwtException ex) {
+        String errorMessage = ex.getMessage();
+        ApiResponse apiResponse = new ApiResponse(errorMessage, AppConstants.MALFORMED_JWTTOKEN, false);
+        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<ApiResponse> expiredJwtExceptionHandler(ExpiredJwtException ex) {
+        String errorMessage = ex.getMessage();
+        ApiResponse apiResponse = new ApiResponse(errorMessage, AppConstants.EXPIRED_JWTTOKEN, false);
+        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiResponse> illegalArgumentExceptionHandler(IllegalArgumentException ex) {
+        String errorMessage = ex.getMessage();
+        ApiResponse apiResponse = new ApiResponse(errorMessage, AppConstants.ILLEGAL_JWTTOKEN, false);
+        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiResponse> exceptionHandler(Exception ex) {
+        String errorMessage = ex.getMessage();
+        ApiResponse apiResponse = new ApiResponse(errorMessage, AppConstants.GLOBAL_EXCEPTION, false);
         return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.BAD_REQUEST);
     }
 }

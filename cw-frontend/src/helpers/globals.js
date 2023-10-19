@@ -100,14 +100,12 @@ const getSearchStr = (Obj) => {
 const isValidData = (value) => {
   let status = true
   const valueType = typeof value
-  if (valueType === 'object') {
+  if (value !== null && valueType === 'object') {
     if (!Object.keys(value).length) {
       status = false
     }
-  } else {
-    if (value === null || value === undefined) {
-      status = false
-    }
+  } else if (value === null || value === undefined) {
+    status = false
   }
 
   return status

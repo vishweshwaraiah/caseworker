@@ -21,6 +21,7 @@
                 "endOfLine": "auto"
             }
         ],
-        "no-debugger": "off"
+        "no-debugger": "off",
+        "react-hooks/exhaustive-deps": "off"
     }
 }

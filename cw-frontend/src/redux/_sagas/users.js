@@ -6,7 +6,7 @@ import {
   GET_USERS_FAILURE,
 } from 'redux/_types'
 
-const apiUrl = `/users`
+const apiUrl = `/api/users`
 async function getApi() {
   try {
     const response = await axios.get(apiUrl)

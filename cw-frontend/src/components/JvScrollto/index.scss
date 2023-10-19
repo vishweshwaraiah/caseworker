@@ -15,6 +15,10 @@
     z-index: 100;
     padding: 0;
 
+    &.btn:active {
+        top: auto;
+    }
+
     svg {
         position: absolute;
         top: 50%;

@@ -9,27 +9,28 @@ import {
   SIGNUP_USER_FAILURE,
 } from 'redux/_types'
 
-const signinUrl = `/users`
+const SIGNIN_URL = `/auth/signin`
+const SIGNUP_URL = `/auth/signup`
+
 async function signinApi(payload) {
   try {
-    const response = await axios.post(signinUrl, payload)
+    const response = await axios.post(SIGNIN_URL, payload)
     return response.data
   } catch (error) {
     return error
   }
 }
 
-const signupUrl = `/users`
 async function signupApi(payload) {
   try {
-    const response = await axios.post(signupUrl, payload)
+    const response = await axios.post(SIGNUP_URL, payload)
     return response.data
   } catch (error) {
     return error
   }
 }
 
-function* signinUser(action) {
+function* signinUserSaga(action) {
   const payload = action.payload
   try {
     const userData = yield call(signinApi, payload)
@@ -45,7 +46,7 @@ function* signinUser(action) {
   }
 }
 
-function* signupUser(action) {
+function* signupUserSaga(action) {
   const payload = action.payload
   try {
     const userData = yield call(signupApi, payload)
@@ -62,11 +63,11 @@ function* signupUser(action) {
 }
 
 function* authSaga() {
-  yield takeEvery(SIGNIN_USER_REQUEST, signinUser)
+  yield takeEvery(SIGNIN_USER_REQUEST, signinUserSaga)
 }
 
 export function* signupSaga() {
-  yield takeEvery(SIGNUP_USER_REQUEST, signupUser)
+  yield takeEvery(SIGNUP_USER_REQUEST, signupUserSaga)
 }
 
 export default authSaga

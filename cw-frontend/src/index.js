@@ -5,8 +5,6 @@ import reportWebVitals from 'reportWebVitals'
 import { Provider } from 'react-redux'
 import store from 'redux/_store'
 
-import { AuthProvider } from 'context/AuthProvider'
-
 import 'assets/styles/index.scss'
 
 import MainApp from 'template'
@@ -14,11 +12,9 @@ import MainApp from 'template'
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
-    <AuthProvider>
-      <Provider store={store}>
-        <MainApp />
-      </Provider>
-    </AuthProvider>
+    <Provider store={store}>
+      <MainApp />
+    </Provider>
   </React.StrictMode>
 )
 

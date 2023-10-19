@@ -21,7 +21,7 @@ import io.jsonwebtoken.security.Keys;
 public class JwtHelper {
 
     // required
-    public static final long TOKEN_VALIDITY = 5 * 60 * 60;
+    public static final long TOKEN_VALIDITY = 1 * 60 * 60;
 
     private String secretKey = "Master_vish_is_the_real_hero_jhdjhgdjabdjgujdbjreSwoireoOPIAnnfmxjffmlkdhwuyAjMvK";
 
@@ -48,7 +48,7 @@ public class JwtHelper {
         return Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token).getBody();
     }
 
-    private Boolean isTokenExpired(String token) {
+    public Boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
         return expiration.before(new Date());
     }

@@ -13,6 +13,8 @@ public interface UserService {
 
     UserDto getUserById(Long id);
 
+    UserDto getUserByEmail(String userEmail);
+
     List<UserDto> getAllUsers();
 
     Boolean deleteUser(Long id);

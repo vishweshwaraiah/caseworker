@@ -13,9 +13,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.master.cw_backend.dtos.UserDto;
 import com.master.cw_backend.security.JwtHelper;
+import com.master.cw_backend.services.UserService;
 import com.master.cw_backend.utils.JwtRequest;
 import com.master.cw_backend.utils.JwtResponse;
+
+import jakarta.servlet.http.HttpServletRequest;
+
+import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequestMapping("/auth")
@@ -30,8 +36,12 @@ public class AuthController {
     @Autowired
     JwtHelper jwtHelper;
 
-    @PostMapping("/login")
+    @Autowired
+    UserService userService;
+
+    @PostMapping("/signin")
     public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest jwtRequest) {
+
         this.doAuthenticate(jwtRequest.getUserEmail(), jwtRequest.getUserPassword());
         UserDetails userDetails = userDetailsService.loadUserByUsername(jwtRequest.getUserEmail());
 
@@ -52,4 +62,23 @@ public class AuthController {
             throw new BadCredentialsException("Invalid User name or User passowrd!");
         }
     }
+
+    @GetMapping("/user")
+    public ResponseEntity<UserDto> getUserByToken(HttpServletRequest request) {
+        String requestHeader = request.getHeader("Authorization");
+        String jwtToken = null;
+        UserDto userDetails = null;
+
+        if (requestHeader != null && requestHeader.startsWith("Bearer")) {
+            jwtToken = requestHeader.substring(7);
+            Boolean isTokenExpired = jwtHelper.isTokenExpired(jwtToken);
+            String userEmail = null;
+            if (!isTokenExpired) {
+                userEmail = jwtHelper.getUsernameFromToken(jwtToken);
+            }
+            userDetails = userService.getUserByEmail(userEmail);
+        }
+        return new ResponseEntity<UserDto>(userDetails, HttpStatus.OK);
+    }
+
 }
