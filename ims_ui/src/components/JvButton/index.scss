@@ -1,0 +1,215 @@
+/*-------------------
+Button related styles
+-------------------*/
+
+a.jv-btn,
+button.jv-btn {
+    margin: auto;
+    display: inline-block;
+    letter-spacing: 0.0635rem;
+    outline: none;
+    position: relative;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    transition: all 0.3s;
+    width: auto;
+    padding: 1rem;
+    font-family: "Quicksand", sans-serif;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    border: none;
+    opacity: 1;
+    text-decoration: auto;
+    box-shadow: 0.25rem 0.5rem 1rem 0 rgba(0, 0, 0, .3);
+    line-height: 1;
+
+    &.small {
+        font-size: 75%;
+    }
+
+    &.medium {
+        font-size: 100%;
+    }
+
+    &.large {
+        font-size: 125%;
+    }
+
+    &.full {
+        width: 100%;
+    }
+
+    &:hover {
+        opacity: 0.7;
+    }
+
+    &:active {
+        opacity: 0.9;
+        top: 0.0625rem;
+    }
+
+    &.btn-filled.btn {
+        &-primary {
+            background-color: var(--jv-primary);
+        }
+
+        &-secondary {
+            background-color: var(--jv-secondary);
+        }
+
+        &-tertiary {
+            background-color: var(--jv-tertiary);
+        }
+
+        &-success {
+            background-color: var(--jv-success);
+        }
+
+        &-info {
+            background-color: var(--jv-info);
+        }
+
+        &-warning {
+            background-color: var(--jv-warning);
+        }
+
+        &-danger {
+            background-color: var(--jv-danger);
+        }
+
+        &-light {
+            background-color: var(--jv-light);
+        }
+
+        &-dark {
+            background-color: var(--jv-dark);
+        }
+
+        &-blue {
+            background-color: var(--jv-blue);
+        }
+
+        &-indigo {
+            background-color: var(--jv-indigo);
+        }
+
+        &-purple {
+            background-color: var(--jv-purple);
+        }
+
+        &-pink {
+            background-color: var(--jv-pink);
+        }
+
+        &-red {
+            background-color: var(--jv-red);
+        }
+
+        &-orange {
+            background-color: var(--jv-orange);
+        }
+
+        &-yellow {
+            background-color: var(--jv-yellow);
+        }
+
+        &-green {
+            background-color: var(--jv-green);
+        }
+
+        &-teal {
+            background-color: var(--jv-teal);
+        }
+
+        &-cyan {
+            background-color: var(--jv-cyan);
+        }
+
+        &-gray {
+            background-color: var(--jv-gray);
+        }
+    }
+
+    &.btn-outlined.btn {
+        &-primary {
+            border: 0.125rem solid var(--jv-primary);
+        }
+
+        &-secondary {
+            border: 0.125rem solid var(--jv-secondary);
+        }
+
+        &-tertiary {
+            border: 0.125rem solid var(--jv-tertiary);
+        }
+
+        &-success {
+            border: 0.125rem solid var(--jv-success);
+        }
+
+        &-info {
+            border: 0.125rem solid var(--jv-info);
+        }
+
+        &-warning {
+            border: 0.125rem solid var(--jv-warning);
+        }
+
+        &-danger {
+            border: 0.125rem solid var(--jv-danger);
+        }
+
+        &-light {
+            border: 0.125rem solid var(--jv-light);
+        }
+
+        &-dark {
+            border: 0.125rem solid var(--jv-dark);
+        }
+
+        &-blue {
+            border: 0.125rem solid var(--jv-blue);
+        }
+
+        &-indigo {
+            border: 0.125rem solid var(--jv-indigo);
+        }
+
+        &-purple {
+            border: 0.125rem solid var(--jv-purple);
+        }
+
+        &-pink {
+            border: 0.125rem solid var(--jv-pink);
+        }
+
+        &-red {
+            border: 0.125rem solid var(--jv-red);
+        }
+
+        &-orange {
+            border: 0.125rem solid var(--jv-orange);
+        }
+
+        &-yellow {
+            border: 0.125rem solid var(--jv-yellow);
+        }
+
+        &-green {
+            border: 0.125rem solid var(--jv-green);
+        }
+
+        &-teal {
+            border: 0.125rem solid var(--jv-teal);
+        }
+
+        &-cyan {
+            border: 0.125rem solid var(--jv-cyan);
+        }
+
+        &-gray {
+            border: 0.125rem solid var(--jv-gray);
+        }
+    }
+}
