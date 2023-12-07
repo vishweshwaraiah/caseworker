@@ -13,17 +13,19 @@ const JvIcon = (props) => {
     onClick,
     className,
     title,
+    hoverColor,
+    roundSpace,
   } = props
 
   const getSize = () => {
     if (size === 'x-large') {
-      return '54'
+      return '48'
     } else if (size === 'large') {
       return '40'
     } else if (size === 'medium') {
       return '32'
     } else if (size === 'small') {
-      return '20'
+      return '24'
     } else if (size === 'x-small') {
       return '16'
     } else {
@@ -44,7 +46,19 @@ const JvIcon = (props) => {
   const getClasses = () => {
     const classList = ['svg-holder']
 
+    if (hoverColor) classList.push('hover-inverse')
+
+    if (size) classList.push(size)
+
     if (className) classList.push(className)
+
+    return classNames(classList)
+  }
+
+  const svgBoxClasses = () => {
+    const classList = ['svg_box']
+
+    if (roundSpace) classList.push('is_rounded')
 
     return classNames(classList)
   }
@@ -52,14 +66,16 @@ const JvIcon = (props) => {
   return (
     <span onClick={() => onClick()} className={getClasses()} title={title}>
       {labelBefore && <label className="label-before">{labelBefore}</label>}
-      <svg
-        className="shadow-svg-dark"
-        fill={fillColor}
-        height={getSize()}
-        width={getSize()}
-      >
-        <use href={icon} />
-      </svg>
+      <div className={svgBoxClasses()}>
+        <svg
+          className="shadow-svg-dark"
+          fill={fillColor}
+          height={getSize()}
+          width={getSize()}
+        >
+          <use href={icon} />
+        </svg>
+      </div>
       {labelAfter && <label className="label-after">{labelAfter}</label>}
     </span>
   )
@@ -74,6 +90,8 @@ JvIcon.propTypes = {
   onClick: PropTypes.func,
   className: PropTypes.string,
   title: PropTypes.string,
+  hoverColor: PropTypes.string,
+  roundSpace: PropTypes.string,
 }
 
 JvIcon.defaultProps = {
@@ -81,10 +99,12 @@ JvIcon.defaultProps = {
   labelAfter: '',
   size: 'medium',
   svgName: 'placeholder',
-  fillColor: 'var(--jv-body-color)',
+  fillColor: 'var(--jv-text-color)',
   onClick: () => {},
   className: '',
   title: '',
+  hoverColor: '',
+  roundSpace: '',
 }
 
 export default JvIcon

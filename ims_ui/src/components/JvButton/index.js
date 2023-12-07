@@ -8,7 +8,6 @@ const JvButton = (props) => {
   const {
     className,
     onClick,
-    type,
     href,
     content,
     role,
@@ -55,7 +54,6 @@ const JvButton = (props) => {
       className: getClasses(),
       onClick: handleOnClick,
       role: role,
-      type: type,
       title: title,
     }
 
@@ -65,16 +63,15 @@ const JvButton = (props) => {
   }
 
   useEffect(() => {
-    if (type === 'link' && href !== '') {
+    if (href !== '') {
       setCustomTag('a')
     }
-  }, [type])
+  }, [href])
 
   return <CustomTag {...getAttrProps()}>{content}</CustomTag>
 }
 
 JvButton.propTypes = {
-  type: PropTypes.string,
   role: PropTypes.string,
   content: PropTypes.string,
   className: PropTypes.string,
@@ -88,7 +85,6 @@ JvButton.propTypes = {
 }
 
 JvButton.defaultProps = {
-  type: 'button',
   role: 'button',
   content: 'Button',
   className: '',

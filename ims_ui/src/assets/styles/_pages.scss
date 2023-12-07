@@ -7,6 +7,43 @@ Home Page
 }
 
 /*--------------------
+Header Component
+---------------------*/
+
+.auth-header {
+    position: relative;
+
+    .auth_dropdown {
+        cursor: pointer;
+        z-index: 200;
+
+        .user_dropdown {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            color: var(--jv-bg-color);
+            background: var(--jv-text-color);
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            z-index: 200;
+
+            p {
+                padding: 0.5rem;
+                cursor: pointer;
+                box-shadow: var(--jv-box-shadow);
+
+                &:hover {
+                    color: var(--jv-secondary-color);
+                    background: var(--jv-secondary-bg);
+                    border-radius: 0.25rem;
+                }
+            }
+        }
+    }
+}
+
+/*--------------------
 Icons Lib Page
 ---------------------*/
 
@@ -22,7 +59,7 @@ Icons Lib Page
         flex-direction: column;
 
         .icon-name {
-            color: var(--jv-body-color);
+            color: var(--jv-text-color);
             margin-top: 10px;
         }
     }

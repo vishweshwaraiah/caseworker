@@ -1,17 +1,36 @@
 .svg-holder {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
-    background: transparent;
+    height: auto;
+    width: auto;
 
-    &.hover-inverse {
-        &:hover svg {
-            fill: var(--jv-body-bg);
+    &.hover-inverse:hover svg {
+        fill: var(--jv-teal);
+    }
+
+    div.svg_box {
+        display: inline-flex;
+        align-items: center;
+        align-self: center;
+        justify-content: center;
+
+        &.is_rounded {
+            border-radius: 50%;
+            padding: 5px;
+            background-color: var(--jv-orange);
         }
     }
 
-    .label-before,
+    .label-before {
+        flex: 1;
+        padding-right: 1rem;
+        margin-bottom: 0;
+    }
+
     .label-after {
-        margin: auto;
+        flex: 1;
+        padding-left: 1rem;
+        margin-bottom: 0;
     }
 }

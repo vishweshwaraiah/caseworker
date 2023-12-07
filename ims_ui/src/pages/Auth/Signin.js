@@ -49,14 +49,13 @@ const Signin = (props) => {
     const setAuthDetails = (jwtToken) => {
       setJwtToken(jwtToken)
       if (!validRoute(pathname)) {
-        navigate('/')
-      } else {
-        navigate('/')
+        console.log('Wrong URL, redirecting to home page!')
       }
+      navigate('/')
     }
 
-    const userEmail = authDetails?.email
-    const jwtToken = authDetails?.token
+    const userEmail = authDetails?.userEmail
+    const jwtToken = authDetails?.jwtToken
 
     if (userEmail && jwtToken) {
       setAuthDetails(jwtToken)

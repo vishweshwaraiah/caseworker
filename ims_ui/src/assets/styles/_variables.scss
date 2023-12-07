@@ -83,8 +83,8 @@
 
 [data-theme='light'] {
     color-scheme: light;
-    --jv-body-color: #212529;
-    --jv-body-bg: #fff;
+    --jv-text-color: #212529;
+    --jv-bg-color: #fff;
     --jv-emphasis-color: #000;
     --jv-secondary-color: rgba(33, 37, 41, 0.75);
     --jv-secondary-bg: #e9ecef;
@@ -130,8 +130,8 @@
 
 [data-theme='dark'] {
     color-scheme: dark;
-    --jv-body-color: #dee2e6;
-    --jv-body-bg: #212529;
+    --jv-text-color: #dee2e6;
+    --jv-bg-color: #212529;
     --jv-emphasis-color: #fff;
     --jv-secondary-color: rgba(222, 226, 230, 0.75);
     --jv-secondary-bg: #343a40;

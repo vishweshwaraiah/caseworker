@@ -31,7 +31,7 @@ const JvScrollto = (props) => {
           onClick={goTo}
           svgName={svgName}
           size="medium"
-          fillColor="var(--jv-body-color)"
+          fillColor="var(--jv-text-color)"
         />
       )}
     </div>

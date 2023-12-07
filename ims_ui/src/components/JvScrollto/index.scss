@@ -7,8 +7,8 @@
     height: px2rem(60);
     bottom: px2rem(40);
     right: px2rem(40);
-    background-color: var(--jv-body-bg);
-    border: px2rem(3) solid var(--jv-body-color);
+    background-color: var(--jv-bg-color);
+    border: px2rem(3) solid var(--jv-text-color);
     border-radius: px2rem(50);
     text-align: center;
     box-shadow: boxShadow();

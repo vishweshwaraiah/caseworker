@@ -13,13 +13,13 @@ $gl-lg : "screen and (max-width: 80rem)"; // max 1280px
 table {
     border-spacing: 0.3125rem;
     border-collapse: separate;
-    background: var(--jv-body-bg);
+    background: var(--jv-bg-color);
     border-radius: 0.3125rem;
     overflow: hidden;
     max-width: 800px;
     width: 100%;
     position: relative;
-    box-shadow: 0 0 20px var(--jv-body-color);
+    box-shadow: 0 0 20px var(--jv-text-color);
 
     * {
         position: relative
@@ -38,7 +38,7 @@ table {
 
     tbody tr {
         height: 48px;
-        border-bottom: 1px solid var(--jv-body-bg);
+        border-bottom: 1px solid var(--jv-bg-color);
 
         &:last-child {
             border: 0;
@@ -48,7 +48,7 @@ table {
     td,
     th {
         text-align: left;
-        box-shadow: 0 0 0.5rem var(--jv-body-color);
+        box-shadow: 0 0 0.5rem var(--jv-text-color);
 
         &.l {
             text-align: right

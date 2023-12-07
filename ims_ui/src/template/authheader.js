@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import JvButton from 'components/JvButton'
 import { classNames } from 'helpers/globals'
+import JvIcon from 'components/JvIcon'
 
 const AuthHeader = (props) => {
   const { className } = props
@@ -15,19 +16,24 @@ const AuthHeader = (props) => {
     return classNames(classList)
   }
 
-  const email = useSelector((state) => state.auth.email)
-  const mobile = useSelector((state) => state.auth.mobile)
-  const userName = useSelector((state) => state.auth.name)
+  const authDetails = useSelector((state) => state.auth)
+
+  const { userEmail, userMobile, userName } = authDetails
 
   const [loggedIn, setLoggedIn] = useState(false)
+  const [showUser, setShowUser] = useState(false)
 
   useEffect(() => {
-    if (email && mobile) {
+    if (userEmail && userMobile) {
       setLoggedIn(true)
     } else {
       setLoggedIn(false)
     }
-  }, [email, mobile])
+  }, [authDetails])
+
+  const toggleShowUser = () => {
+    setShowUser(!showUser)
+  }
 
   return (
     <div className={getClasses()}>
@@ -41,10 +47,25 @@ const AuthHeader = (props) => {
           type="link"
         />
       ) : (
-        <div>
-          <p>{userName}</p>
-          <p>{email}</p>
-          <p>{mobile}</p>
+        <div className="auth_dropdown">
+          {showUser && (
+            <div className="back_drop" onClick={toggleShowUser}></div>
+          )}
+          <JvIcon
+            svgName="user"
+            size="small"
+            fillColor="var(--jv-bg-color)"
+            roundSpace="5px"
+            hoverColor="#000000"
+            onClick={toggleShowUser}
+          />
+          {showUser && (
+            <div className="user_dropdown">
+              <p>{userName}</p>
+              <p>{userEmail}</p>
+              <p>{userMobile}</p>
+            </div>
+          )}
         </div>
       )}
     </div>
